@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 4201;
 
 let clienteRoute = require('./routes/cliente');
+let adminRoute = require('./routes/admin');
 
 try {
 
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api', clienteRoute);
+app.use('/api', adminRoute);
 
 app.listen(port, (err) => {
     if(err){
