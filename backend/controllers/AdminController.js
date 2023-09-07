@@ -1,24 +1,24 @@
 'use strict'
 
-let Cliente = require('../models/cliente');
+let Admin = require('../models/admin');
 const bcrypt = require('bcrypt-node');
 
-const registroCliente = async (req, res) => {
+const registroAdmin = async (req, res) => {
 
     let data = req.body;
-    let clientesArr = [];
+    let adminArr = [];
 
-    clientesArr = await Cliente.find({
+    adminArr = await Admin.find({
         email: data.email
     });
 
-    if(clientesArr.length == 0){
+    if(adminArr.length == 0){
 
         if(data.password){
             bcrypt.hash(data.password, null, null, async (err, hash) => {
                 if(hash){
                     data.password = hash;
-                    let reg = await Cliente.create(data);
+                    let reg = await Admin.create(data);
                     return res.status(200).send({message: reg});
                 } else {
                     return res.status(200).send({message: 'Error Server', data:undefined});
@@ -32,18 +32,18 @@ const registroCliente = async (req, res) => {
     }
 }
 
-const loginCliente = async(req, res) => {
+const loginAdmin = async(req, res) => {
 
     let data = req.body;
-    let clientesArr = [];
+    let AdminArr = [];
 
-    clientesArr = await Cliente.find({ email: data.email });
+    AdminArr = await Admin.find({ email: data.email });
 
-    if(clientesArr.length == 0){
+    if(AdminArr.length == 0){
         return res.status(200).send({message: 'No se encontró el correo', data: undefined});
     }
     else {
-        let user  = clientesArr[0];
+        let user  = AdminArr[0];
 
         bcrypt.compare(data.password, user.password, async (error, check) =>{
             if(check) {
@@ -58,8 +58,7 @@ const loginCliente = async(req, res) => {
 
 }
 
-
 module.exports = {
-    registroCliente,
-    loginCliente
+    registroAdmin,
+    loginAdmin
 }
