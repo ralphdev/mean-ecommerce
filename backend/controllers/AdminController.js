@@ -1,7 +1,8 @@
 'use strict'
 
-let Admin = require('../models/admin');
+let admin = require('../models/admin');
 const bcrypt = require('bcrypt-node');
+const jwt = require('../helpers/jwt');
 
 const registroAdmin = async (req, res) => {
 
@@ -35,27 +36,46 @@ const registroAdmin = async (req, res) => {
 const loginAdmin = async(req, res) => {
 
     let data = req.body;
-    let AdminArr = [];
 
-    AdminArr = await Admin.find({ email: data.email });
+    try {
 
-    if(AdminArr.length == 0){
-        return res.status(200).send({message: 'No se encontró el correo', data: undefined});
-    }
-    else {
-        let user  = AdminArr[0];
+        let adminData = await admin.findOne({ email: data.email });
 
-        bcrypt.compare(data.password, user.password, async (error, check) =>{
-            if(check) {
+        if(!adminData){
 
-                return res.status(200).send({data:user});
+            return res.status(400).json({
+                error: true,
+                message: 'No se encontró el correo', 
+            });
+        }
+        else {
+
+            const validPassword = bcrypt.compareSync(data.password, adminData.password);
+                
+            if(!validPassword) {
+
+                return res.status(400).json({
+                    error: true,
+                    message: 'la contraseña no coincide'
+                });
             }
             else {
-                return res.status(200).send({message: 'la contraseña no coincide', data: undefined});
+                
+                const token = await jwt.generateToken(adminData);
+                
+                return res.status(200).json({
+                    adminData,
+                    token
+                });
             }
-        })
-    }
+            
+        }
 
+    } catch(error) {
+        return res.status(500).json({
+            message: "Contact Admin -- Problem with the Backend",
+        });
+    }
 }
 
 module.exports = {
