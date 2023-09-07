@@ -32,6 +32,33 @@ const registroAdmin = async (req, res) => {
     }
 }
 
+const loginAdmin = async(req, res) => {
+
+    let data = req.body;
+    let AdminArr = [];
+
+    AdminArr = await Admin.find({ email: data.email });
+
+    if(AdminArr.length == 0){
+        return res.status(200).send({message: 'No se encontró el correo', data: undefined});
+    }
+    else {
+        let user  = AdminArr[0];
+
+        bcrypt.compare(data.password, user.password, async (error, check) =>{
+            if(check) {
+
+                return res.status(200).send({data:user});
+            }
+            else {
+                return res.status(200).send({message: 'la contraseña no coincide', data: undefined});
+            }
+        })
+    }
+
+}
+
 module.exports = {
-    registroAdmin
+    registroAdmin,
+    loginAdmin
 }

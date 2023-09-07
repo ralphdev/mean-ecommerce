@@ -32,12 +32,34 @@ const registroCliente = async (req, res) => {
     }
 }
 
-const Init = async (req, res) => {
+const loginCliente = async(req, res) => {
 
-   res.status(200).send({message: 'Hola Mundo'});
+    let data = req.body;
+    let clientesArr = [];
+
+    clientesArr = await Cliente.find({ email: data.email });
+
+    if(clientesArr.length == 0){
+        return res.status(200).send({message: 'No se encontró el correo', data: undefined});
+    }
+    else {
+        let user  = clientesArr[0];
+
+        bcrypt.compare(data.password, user.password, async (error, check) =>{
+            if(check) {
+
+                return res.status(200).send({data:user});
+            }
+            else {
+                return res.status(200).send({message: 'la contraseña no coincide', data: undefined});
+            }
+        })
+    }
+
 }
 
+
 module.exports = {
-    Init,
-    registroCliente
+    registroCliente,
+    loginCliente
 }
