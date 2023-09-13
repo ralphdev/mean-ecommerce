@@ -1,7 +1,7 @@
 'use strict'
 
-let jwt = require('jwt-simple');
-let moment = require('moment');
+const jwt = require('jwt-simple');
+const momento = require('moment');
 let secret = 'ralphdev';
 
 exports.generateToken = async (user) => {
@@ -11,8 +11,9 @@ exports.generateToken = async (user) => {
         nombres: user.nombres,
         apellidos: user.apellidos,
         email: user.email,
-        iat: moment.unix(),
-        exp: moment().add(7, 'days').unix()
+        role: user.role,
+        iat: momento().unix(),
+        exp: momento().add(7, 'days').unix()
     }
 
     return jwt.encode(payload, secret);
