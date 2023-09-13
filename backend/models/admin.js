@@ -9,7 +9,7 @@ let AdminSchema = Schema({
     email: { type: String, required: true},
     password: { type: String, required: true},
     telefono: { type: String, required: true},
-    rol: { type: String, required: true},
+    role: { type: String, required: true},
     cedula: { type: String, required: true},
 });
 

@@ -9,7 +9,7 @@ const registroAdmin = async (req, res) => {
     let data = req.body;
     let adminArr = [];
 
-    adminArr = await Admin.find({
+    adminArr = await admin.find({
         email: data.email
     });
 
@@ -19,7 +19,7 @@ const registroAdmin = async (req, res) => {
             bcrypt.hash(data.password, null, null, async (err, hash) => {
                 if(hash){
                     data.password = hash;
-                    let reg = await Admin.create(data);
+                    let reg = await admin.create(data);
                     return res.status(200).send({message: reg});
                 } else {
                     return res.status(200).send({message: 'Error Server', data:undefined});
@@ -56,10 +56,12 @@ const loginAdmin = async(req, res) => {
 
                 return res.status(400).json({
                     error: true,
-                    message: 'la contraseña no coincide'
+                    message: 'La contraseña no coincide'
                 });
             }
             else {
+
+                console.log(adminData.role, 'else valid');
                 
                 const token = await jwt.generateToken(adminData);
                 
