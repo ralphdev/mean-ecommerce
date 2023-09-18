@@ -79,8 +79,25 @@ const loginCliente = async(req, res) => {
 
 }
 
+const listarClientesFiltroAdmin = async(req, res) => {
+
+    let data = await Cliente.find();
+
+    try {
+        return res.status(200).json({
+            data
+        });
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: "Contact Admin -- Problem with the Backend",
+        });
+    }
+} 
+
 
 module.exports = {
     registroCliente,
-    loginCliente
+    loginCliente,
+    listarClientesFiltroAdmin
 }
