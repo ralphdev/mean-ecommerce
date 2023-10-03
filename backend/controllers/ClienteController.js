@@ -45,13 +45,13 @@ const loginCliente = async(req, res) => {
 
             return res.status(400).json({
                 error: true,
-                message: 'No se encontró el correo', 
+                message: 'No se encontró el correo',
             });
         }
         else {
 
             const validPassword = bcrypt.compareSync(data.password, clienteData.password);
-                
+
             if(!validPassword) {
 
                 return res.status(400).json({
@@ -60,15 +60,15 @@ const loginCliente = async(req, res) => {
                 });
             }
             else {
-                
+
                 const token = await jwt.generateToken(clienteData);
-                
+
                 return res.status(200).json({
                     clienteData,
                     token
                 });
             }
-            
+
         }
 
     } catch(error) {
@@ -79,21 +79,61 @@ const loginCliente = async(req, res) => {
 
 }
 
+/**
+ * Funcion de parte del Administrador para filtrar clientes
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 const listarClientesFiltroAdmin = async(req, res) => {
 
-    let data = await Cliente.find();
+    console.log('usuario: ', req.user);
 
     try {
-        return res.status(200).json({
-            data
-        });
-        
+
+        //if (req.user) {
+
+            //if (req.user.role == 'admin') {
+
+                let tipo = req.params['tipo'];
+                let filtro = req.params['filtro'];
+
+                console.log(tipo);
+
+                if (tipo == null || tipo == 'null') {
+
+                    let reg = await Cliente.find();
+                    return res.status(200).json({ data: reg });
+
+                } else {
+
+                    if (tipo == 'apellidos') {
+
+                        let reg = await Cliente.find({ apellidos: new RegExp(filtro, 'i') });
+                        return res.status(200).json({ data: reg });
+                    }
+                    else if (tipo == 'correo') {
+
+                        let reg = await Cliente.find({ email: new RegExp(filtro, 'i') });
+                        return res.status(200).json({ data: reg });
+                    }
+                }
+            //} else {
+
+                //return res.status(500).json({ message: 'NoAccess' });
+            //}
+
+        //} else {
+
+            //return res.status(500).json({ message: 'NoAccess'});
+        //}
+
     } catch (error) {
         return res.status(500).json({
             message: "Contact Admin -- Problem with the Backend",
         });
     }
-} 
+}
 
 
 module.exports = {
