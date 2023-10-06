@@ -35,5 +35,14 @@ export class ClienteService {
     return this._http.get(this.url + 'listar-clientes-filtro-admin/' + tipo + '/' + filtro, { headers: headers });
   }
 
+  registroClienteAdmin(data: any,token:any):Observable<any>{
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    });
+    return this._http.post(this.url+'registro-cliente',data,{ headers:headers });
+  }
+
 
 }
