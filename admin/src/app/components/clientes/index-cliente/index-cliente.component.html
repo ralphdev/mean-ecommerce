@@ -5,7 +5,12 @@
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
-        <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="https://getbootstrap.com/docs/4.5/components/forms/" target="_blank" rel="noopener">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+        <p class="font-size-sm font-weight-medium pl-md-4">
+            <a class="text-nowrap"
+                href="https://getbootstrap.com/docs/4.5/components/forms/" target="_blank" rel="noopener">Registrar
+                nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+            </a>
+        </p>
     </div>
 </div>
 
@@ -16,123 +21,97 @@
     <div class="card-header">
         <form class="form-inline pt-2">
             <label class="sr-only" for="inline-form-input-name">Apellidos</label>
-            <input class="form-control mb-3 mr-sm-4" type="text" id="inline-form-input-name" placeholder="John Doe">
+            <input class="form-control mb-3 mr-sm-4" (keyup)="filtro('apellidos')" name="filtro_apellidos"
+                [(ngModel)]="filtro_apellidos" type="text" id="inline-form-input-name" placeholder="Apellidos">
             <label class="sr-only" for="inline-form-input-username">Correo</label>
             <div class="input-group mb-3 mr-sm-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text">@</div>
+                <div class="input-group-prepend">
+                    <div class="input-group-text">@</div>
+                </div>
+                <input class="form-control" type="text" (keyup)="filtro('correo')" name="filtro_correo"
+                    [(ngModel)]="filtro_correo" id="inline-form-input-username" placeholder="Correo">
             </div>
-            <input class="form-control" type="text" id="inline-form-input-username" placeholder="Username">
-            </div>
-        
-            <button class="btn btn-primary mb-3" type="submit">Buscar cliente</button>
+
         </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Position</th>
-                    <th>Phone</th>
-                </tr>
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Opciones</th>
+                    </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>CEO, Founder</td>
-                    <td>
-                    <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Action</a>
-                            <a href="#" class="dropdown-item">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Something else here</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Anna</td>
-                    <td>Cabana</td>
-                    <td>Designer</td>
-                    <td>
-                    <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Action</a>
-                            <a href="#" class="dropdown-item">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Something else here</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Kale</td>
-                    <td>Thornton</td>
-                    <td>Developer</td>
-                    <td>
-                    <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Action</a>
-                            <a href="#" class="dropdown-item">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Something else here</a>
-                        </div>
-                        </div>
-                    </td>
-                </tr>
+                <tbody *ngIf="load_data">
+                    <tr>
+                        <td class="text-center" colspan="5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden"></span>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
-            </table>A>
+                <ng-container *ngIf="!load_data">
+                    <tbody *ngFor="let item of clientes | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index">
+                        <tr>
+                            <td>{{ i+1 }}</td>
+                            <td>{{ item.nombres }}</td>
+                            <td>{{ item.apellidos }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>
+                                <div class="btn-group dropdown d-inline-block mb-3 me-2">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Opciones
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" [routerLink]="['/panel/clientes',item._id]">Editar
+                                            cliente</a>
+                                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
+                                            [attr.data-target]="'#delete-'+item._id">Eliminar cliente</a>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Se eliminara a: {{item.nombres}}
+                                                    {{item.apellidos}}</h4>
+                                                <button class="close" type="button" data-dismiss="modal">✕</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="fs-sm">Desea eliminar este cliente?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary btn-sm" type="button"
+                                                    data-dismiss="modal">Cancelar</button>
+                                                <button class="btn btn-primary btn-sm" (click)="eliminar(item._id)"
+                                                    type="button">Si, eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+
+            </table>
         </div>
     </div>
     <div class="card-footer">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                <a href="#" class="page-link">Prev</a>
-                </li>
-                <li class="page-item d-sm-none">
-                <span class="page-link page-link-static">2 / 5</span>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                <a href="#" class="page-link">1</a>
-                </li>
-                <li class="page-item active d-none d-sm-block" aria-current="page">
-                <span class="page-link">
-                    2
-                    <span class="sr-only">(current)</span>
-                </span>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                <a href="#" class="page-link">3</a>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                <a href="#" class="page-link">4</a>
-                </li>
-                <li class="page-item d-none d-sm-block">
-                <a href="#" class="page-link">5</a>
-                </li>
-                <li class="page-item">
-                <a href="#" class="page-link">Next</a>
-                </li>
-            </ul>
-            </nav>
+        <ngb-pagination #pagination
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [collectionSize]="clientes.length"
+        [rotate]="false"
+        ></ngb-pagination>
     </div>
-</div>    
+</div>
