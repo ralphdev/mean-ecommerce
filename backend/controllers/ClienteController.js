@@ -4,35 +4,6 @@ let Cliente = require('../models/cliente');
 const bcrypt = require('bcrypt-node');
 const jwt = require('../helpers/jwt');
 
-const registroCliente = async (req, res) => {
-
-    let data = req.body;
-    let clientesArr = [];
-
-    clientesArr = await Cliente.find({
-        email: data.email
-    });
-
-    if(clientesArr.length == 0){
-
-        if(data.password){
-            bcrypt.hash(data.password, null, null, async (err, hash) => {
-                if(hash){
-                    data.password = hash;
-                    let reg = await Cliente.create(data);
-                    return res.status(200).send({message: reg});
-                } else {
-                    return res.status(200).send({message: 'Error Server', data:undefined});
-                }
-            });
-        } else {
-            return res.status(200).send({message: 'No hay Contraseña', data:undefined});
-        }
-    } else {
-        return res.status(200).send({message: 'El correo ya existe en la base de datos', data:undefined});
-    }
-}
-
 const loginCliente = async(req, res) => {
 
     let data = req.body;
@@ -110,6 +81,8 @@ const listarClientesFiltroAdmin = async(req, res) => {
                     if (tipo == 'apellidos') {
 
                         let reg = await Cliente.find({ apellidos: new RegExp(filtro, 'i') });
+
+                        console.log(reg);
                         return res.status(200).json({ data: reg });
                     }
                     else if (tipo == 'correo') {
@@ -135,9 +108,48 @@ const listarClientesFiltroAdmin = async(req, res) => {
     }
 }
 
+const registroClienteAdmin = async (req, res) => {
+
+
+    try {
+
+        if(req.user){
+
+            if (req.user.role == 'admin') {
+
+                let data = req.body;
+
+                bcrypt.hash('12345', null, null, async (err, hash) => {
+
+                    if (hash) {
+                        data.password = hash;
+
+                        let reg = await Cliente.create(data);
+                        return res.status(200).send({message: reg});
+                    } else {
+                        return res.status(200).send({message: 'Error Server', data:undefined});
+                    }
+                });
+            } else {
+
+                return res.status(500).json({ message: 'NoAccess' });
+            }
+        } else {
+
+            return res.status(500).json({ message: 'NoAccess' });
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Contact Admin -- Problem with the Backend",
+        });
+    }
+}
+
 
 module.exports = {
-    registroCliente,
+    registroClienteAdmin,
     loginCliente,
     listarClientesFiltroAdmin
 }
