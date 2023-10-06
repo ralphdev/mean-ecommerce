@@ -10,7 +10,6 @@ export class ClienteService {
 
   public url: any;
 
-
   constructor(
     private _http: HttpClient
   ) {
@@ -25,13 +24,12 @@ export class ClienteService {
    * @returns
    */
 
-  //, token: any
 
-  listClientesFiltroAdmin(tipo: any, filtro: any): Observable<any>{
+  listClientesFiltroAdmin(tipo: any, filtro: any, token: any): Observable<any>{
 
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      //'Authorization': token
+      'Authorization': token
     });
 
     return this._http.get(this.url + 'listar-clientes-filtro-admin/' + tipo + '/' + filtro, { headers: headers });

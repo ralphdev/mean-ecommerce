@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AdminService } from 'src/app/services/admin.service';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
@@ -10,18 +11,20 @@ import { ClienteService } from 'src/app/services/cliente.service';
 export class IndexClienteComponent {
 
   constructor(
-    private _clienteService: ClienteService
+    private _clienteService: ClienteService,
+    private _adminService: AdminService
   ) {
+    this.token = this._adminService.getToken();
 
   }
 
-  public clientes: any[] = [];
+  public clientes: Array<any> = [];
   public filtro_apellidos: string = '';
   public filtro_correo: string = '';
 
   // * Variables de paginación
   public page: number = 1;
-  public pageSize: number = 10;
+  public pageSize: number = 4;
   public totalItems: any;
   public previousPage: any;
 
@@ -33,12 +36,14 @@ export class IndexClienteComponent {
   }
 
   initData() {
+    console.log(this.token);
 
-    this._clienteService.listClientesFiltroAdmin(null, null).subscribe({
+    this._clienteService.listClientesFiltroAdmin(null, null, this.token).subscribe({
       next: response => {
 
         this.clientes = response.data;
         this.load_data = false;
+
       },
       error: error => {
 
@@ -53,8 +58,6 @@ export class IndexClienteComponent {
       this.initData();
     }
   }
-
-
 
   filtro(tipo: string) {
 

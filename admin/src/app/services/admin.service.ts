@@ -7,20 +7,21 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminService {
 
   public url:string;
 
-  constructor( 
+  constructor(
     private _http: HttpClient
-  ) { 
+  ) {
     this.url = global.url;
   }
 
   loginAdmin(data:any):Observable<any>{
-    
+
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    
+
     return this._http.post(this.url+'login-admin', data, { headers: headers });
   }
 

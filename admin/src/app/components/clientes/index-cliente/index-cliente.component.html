@@ -39,7 +39,7 @@
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <!--<th>#</th>-->
+                        <th>#</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Correo</th>
@@ -58,7 +58,7 @@
                 <ng-container *ngIf="!load_data">
                     <tbody *ngFor="let item of clientes | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index">
                         <tr>
-                            <!--<td>{{ i+1 }}</td>-->
+                            <td>{{ i+1 }}</td>
                             <td>{{ item.nombres }}</td>
                             <td>{{ item.apellidos }}</td>
                             <td>{{ item.email }}</td>

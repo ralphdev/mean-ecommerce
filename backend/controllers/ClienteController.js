@@ -91,9 +91,9 @@ const listarClientesFiltroAdmin = async(req, res) => {
 
     try {
 
-        //if (req.user) {
+        if (req.user) {
 
-            //if (req.user.role == 'admin') {
+            if (req.user.role == 'admin') {
 
                 let tipo = req.params['tipo'];
                 let filtro = req.params['filtro'];
@@ -118,15 +118,15 @@ const listarClientesFiltroAdmin = async(req, res) => {
                         return res.status(200).json({ data: reg });
                     }
                 }
-            //} else {
+            } else {
 
-                //return res.status(500).json({ message: 'NoAccess' });
-            //}
+                return res.status(500).json({ message: 'NoAccess' });
+            }
 
-        //} else {
+        } else {
 
-            //return res.status(500).json({ message: 'NoAccess'});
-        //}
+            return res.status(500).json({ message: 'NoAccess'});
+        }
 
     } catch (error) {
         return res.status(500).json({
