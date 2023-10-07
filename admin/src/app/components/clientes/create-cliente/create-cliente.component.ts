@@ -52,7 +52,7 @@ export class CreateClienteComponent {
             genero: '',
             nombres: '',
             apellidos: '',
-            f_nacimiento: '',
+            f_nac: '',
             telfono: '',
             cliente: ''
           }
