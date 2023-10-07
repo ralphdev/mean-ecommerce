@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
 import { AdminService } from 'src/app/services/admin.service';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { Component, OnInit } from '@angular/core';
 
+declare var iziToast:any;
+declare var jQuery:any;
+declare var $:any;
 @Component({
   selector: 'app-index-cliente',
   templateUrl: './index-cliente.component.html',
@@ -103,6 +106,26 @@ export class IndexClienteComponent {
 
   eliminar(id: string) {
 
+    this._clienteService.eliminarClienteAdmin(id, this.token).subscribe({
+
+      next: response => {
+        iziToast.show({
+          title: 'CORRECTO',
+          titleColor: '#1DC740',
+          class: 'text-success',
+          position: 'topRight',
+          message: 'Se elimino correctamente este cliente'
+        });
+
+        $('#delete-' + id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+
+        this.initData();
+      },
+      error: error => {
+        console.log(error);
+      }
+    });
   }
 
 }

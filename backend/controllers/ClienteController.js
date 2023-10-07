@@ -215,11 +215,42 @@ const actualizarClienteAdmin = async (req, res) => {
     }
 }
 
+const eliminarClienteAdmin = async (req, res) => {
+
+    try {
+
+        if(req.user){
+
+            if (req.user.role == 'admin') {
+
+                let id = req.params['id'];
+                let reg = await Cliente.findByIdAndRemove({ _id: id });
+
+                return res.status(200).json({ message: reg });
+
+            } else {
+
+                return res.status(500).json({ message: 'NoAccess' });
+            }
+        } else {
+
+            return res.status(500).json({ message: 'NoAccess' });
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Contact Admin -- Problem with the Backend",
+        });
+    }
+}
+
 
 module.exports = {
     loginCliente,
     listarClientesFiltroAdmin,
     registroClienteAdmin,
     obtenerClienteAdmin,
-    actualizarClienteAdmin
+    actualizarClienteAdmin,
+    eliminarClienteAdmin
 }
