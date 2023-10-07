@@ -6,9 +6,10 @@
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
         <p class="font-size-sm font-weight-medium pl-md-4">
-            <a class="text-nowrap"
-                href="https://getbootstrap.com/docs/4.5/components/forms/" target="_blank" rel="noopener">Registrar
-                nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+            <a
+            class="text-nowrap btn btn-sm btn-info"
+            [routerLink]="['/panel/clientes/registro']">
+            Registrar nuevo <i class="cxi-angle-right font-size-base align-middle ml-1"></i>
             </a>
         </p>
     </div>
@@ -69,10 +70,17 @@
                                         Opciones
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" [routerLink]="['/panel/clientes',item._id]">Editar
-                                            cliente</a>
-                                        <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
-                                            [attr.data-target]="'#delete-'+item._id">Eliminar cliente</a>
+                                        <a
+                                        class="dropdown-item"
+                                        [routerLink]="['/panel/clientes', item._id]">
+                                        Editar cliente</a>
+
+                                        <a
+                                        class="dropdown-item"
+                                        style="cursor: pointer;"
+                                        data-toggle="modal"
+                                        [attr.data-target]="'#delete-'+item._id">
+                                        Eliminar cliente</a>
                                     </div>
                                 </div>
 

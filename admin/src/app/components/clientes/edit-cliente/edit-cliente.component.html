@@ -1,17 +1,28 @@
 <app-sidebar></app-sidebar>
+
 <!-- Page title-->
 <div class="border-bottom pt-5 mt-2 mb-5">
   <h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
   <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-    <p class="text-muted">Registro de Cliente.</p>
+    <p class="text-muted">Editar Cliente.</p>
   </div>
-
-  <form #registroForm="ngForm" (ngSubmit)="registro(registroForm)">
-    <div class="card box-shadow-sm">
-      <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Registro de cliente</h5>
-      </div>
+</div>
+<form #updateForm="ngForm" (ngSubmit)="actualizar(updateForm)">
+  <div class="card box-shadow-sm">
+    <div class="card-header">
+      <h5 style="margin-bottom: 0px;">Actualizar datos de cliente</h5>
+    </div>
+    <ng-container *ngIf="load_data">
       <div class="card-body">
+        <div class="col-12 text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden"></span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!load_data">
+      <div class="card-body" *ngIf="cliente != undefined">
         <div class="row">
           <div class="col-md-4 form-group">
             <label for="validationCustom01" class="form-label">Nombres</label>
@@ -40,7 +51,7 @@
           </div>
           <div class="col-md-4 form-group">
             <label for="validationCustom01" class="form-label">Cédula</label>
-            <input class="form-control" type="text" placeholder="Cédula" required name="cedula" [(ngModel)]="cliente.cedula">
+            <input class="form-control" type="text" placeholder="Cédula" required name="dni" [(ngModel)]="cliente.cedula">
           </div>
 
           <div class="col-md-4">
@@ -53,14 +64,25 @@
           </div>
         </div>
       </div>
-      <div class="card-footer">
-        <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Crear cliente</button>
-        <button *ngIf="load_btn" class="btn btn-secondary" disabled>
-          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-          Creando...
-        </button>
-        <a [routerLink]="['/panel/clientes']" class="btn btn-warning">Regresar</a>
+      <div class="card-body" *ngIf="cliente == undefined">
+        <h3 class="text-center">No se encontro el registro!!!</h3>
+        <div class="row">
+          <div class="col-3 mx-auto">
+            <img src="assets/img/error.png" alt="" style="width: 100%;">
+          </div>
+        </div>
       </div>
+    </ng-container>
+    <div class="card-footer" *ngIf="cliente == undefined">
+      <a [routerLink]="['/panel/clientes']" class="btn btn-warning">Regresar</a>
     </div>
-  </form>
-</div>
+    <div class="card-footer" *ngIf="cliente != undefined">
+      <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Actualizar cliente</button>
+      <button *ngIf="load_btn" class="btn btn-secondary" disabled>
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Actualizando...
+      </button>
+      <a [routerLink]="['/panel/clientes']" class="btn btn-warning">Regresar</a>
+    </div>
+  </div>
+</form>

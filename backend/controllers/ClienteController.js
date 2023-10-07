@@ -110,7 +110,6 @@ const listarClientesFiltroAdmin = async(req, res) => {
 
 const registroClienteAdmin = async (req, res) => {
 
-
     try {
 
         if(req.user){
@@ -125,9 +124,9 @@ const registroClienteAdmin = async (req, res) => {
                         data.password = hash;
 
                         let reg = await Cliente.create(data);
-                        return res.status(200).send({message: reg});
+                        return res.status(200).json({message: reg});
                     } else {
-                        return res.status(200).send({message: 'Error Server', data:undefined});
+                        return res.status(200).json({message: 'Error Server', data:undefined});
                     }
                 });
             } else {
@@ -147,9 +146,80 @@ const registroClienteAdmin = async (req, res) => {
     }
 }
 
+const obtenerClienteAdmin = async (req, res) => {
+
+    if(req.user){
+
+        if (req.user.role == 'admin') {
+
+            let id = req.params['id'];
+
+            try {
+
+                let reg = await Cliente.findById({ _id: id });
+
+                return res.status(200).json({ data: reg });
+            } catch (error) {
+
+                res.status(200).json({ data: undefined });
+            }
+
+        } else {
+
+            return res.status(500).json({ message: 'NoAccess' });
+        }
+    } else {
+
+        return res.status(500).json({ message: 'NoAccess' });
+    }
+
+}
+
+const actualizarClienteAdmin = async (req, res) => {
+
+    try {
+
+        if(req.user){
+
+            if (req.user.role == 'admin') {
+
+                let id = req.params['id'];
+                let data = req.body;
+
+                let reg = await Cliente.findByIdAndUpdate({ _id: id }, {
+                    nombres: data.nombres,
+                    apellidos: data.apellidos,
+                    email: data.email,
+                    telefono: data.telefono,
+                    f_nac: data.f_nac,
+                    cedula: data.cedula,
+                    genero: data.genero
+                });
+
+                return res.status(200).send({message: reg});
+
+            } else {
+
+                return res.status(500).json({ message: 'NoAccess' });
+            }
+        } else {
+
+            return res.status(500).json({ message: 'NoAccess' });
+        }
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Contact Admin -- Problem with the Backend",
+        });
+    }
+}
+
 
 module.exports = {
-    registroClienteAdmin,
     loginCliente,
-    listarClientesFiltroAdmin
+    listarClientesFiltroAdmin,
+    registroClienteAdmin,
+    obtenerClienteAdmin,
+    actualizarClienteAdmin
 }

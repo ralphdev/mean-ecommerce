@@ -36,7 +36,6 @@ export class IndexClienteComponent {
   }
 
   initData() {
-    console.log(this.token);
 
     this._clienteService.listClientesFiltroAdmin(null, null, this.token).subscribe({
       next: response => {
@@ -49,7 +48,7 @@ export class IndexClienteComponent {
 
         console.error(error);
       }
-    })
+    });
   }
 
   loadPage(page: number) {
@@ -60,6 +59,45 @@ export class IndexClienteComponent {
   }
 
   filtro(tipo: string) {
+
+    if (tipo == 'apellidos') {
+
+      if (this.filtro_apellidos) {
+
+        this.load_data = true;
+        this._clienteService.listClientesFiltroAdmin(tipo, this.filtro_apellidos, this.token).subscribe({
+          next: response => {
+            this.clientes = response.data;
+            this.load_data = false;
+          },
+          error: error => {
+            console.log(error);
+          }
+        });
+      } else {
+        this.initData();
+      }
+    }
+
+    if (tipo == 'correo') {
+
+      if (this.filtro_correo) {
+
+        this.load_data = true;
+
+        this._clienteService.listClientesFiltroAdmin(tipo, this.filtro_correo, this.token).subscribe({
+          next: response => {
+            this.clientes = response.data;
+            this.load_data = false;
+          },
+          error: error => {;
+            console.log(error);
+          }
+        })
+      }
+    } else {
+      this.initData();
+    }
 
   }
 

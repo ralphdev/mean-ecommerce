@@ -23,8 +23,6 @@ export class ClienteService {
    * @param token
    * @returns
    */
-
-
   listClientesFiltroAdmin(tipo: any, filtro: any, token: any): Observable<any>{
 
     let headers = new HttpHeaders({
@@ -35,7 +33,7 @@ export class ClienteService {
     return this._http.get(this.url + 'listar-clientes-filtro-admin/' + tipo + '/' + filtro, { headers: headers });
   }
 
-  registroClienteAdmin(data: any,token:any):Observable<any>{
+  registroClienteAdmin(data: any,token:any): Observable<any>{
 
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -44,5 +42,22 @@ export class ClienteService {
     return this._http.post(this.url+'registro-cliente',data,{ headers:headers });
   }
 
+  obtenerClienteAdmin(id:any, token:any): Observable<any>{
 
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    });
+
+    return this._http.get(this.url + 'obtener-cliente-admin/' + id, { headers: headers });
+  }
+
+  actualizarClienteAdmin(id: any, data:any, token:any):Observable<any>{
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token
+    });
+
+    return this._http.put(this.url+'actualizar-cliente-admin/'+id, data,{ headers:headers });
+  }
 }
