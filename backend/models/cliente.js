@@ -13,7 +13,8 @@ let ClienteSchema = Schema({
     telefono: { type: String, required: false},
     genero: { type: String, required: false},
     f_nac: { type: String, required: false},
-    cedula: { type: String, required: false},
+    cedula: { type: String, required: false },
+    createdAt: {type:Date, default: Date.now, requiere: true}
 });
 
 module.exports = mongoose.model('cliente', ClienteSchema);
