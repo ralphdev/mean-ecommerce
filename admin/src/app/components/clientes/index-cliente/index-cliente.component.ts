@@ -13,14 +13,6 @@ declare var $:any;
 
 export class IndexClienteComponent {
 
-  constructor(
-    private _clienteService: ClienteService,
-    private _adminService: AdminService
-  ) {
-    this.token = this._adminService.getToken();
-
-  }
-
   public clientes: Array<any> = [];
   public filtro_apellidos: string = '';
   public filtro_correo: string = '';
@@ -33,6 +25,13 @@ export class IndexClienteComponent {
 
   public token: any;
   public load_data: boolean = true;
+
+  constructor(
+    private _clienteService: ClienteService,
+    private _adminService: AdminService
+  ) {
+    this.token = this._adminService.getToken();
+  }
 
   ngOnInit(): void {
     this.initData();
