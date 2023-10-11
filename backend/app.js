@@ -3,17 +3,18 @@
 const express = require('express');
 const app = express();
 
-let bodyparser = require('body-parser');
+let bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 const port = process.env.PORT || 4201;
 
-let clienteRoute = require('./routes/cliente');
 let adminRoute = require('./routes/admin');
+let clienteRoute = require('./routes/cliente');
+let productoRoute = require('./routes/producto');
 
 try {
 
-    mongoose.connect('mongodb://ralphdev:secret@127.0.0.1:27017/shop', {
+    mongoose.connect('mongodb+srv://rafadevelopers:nWJkrXRaePNDvQCJ@cluster0.ab7ouej.mongodb.net/mean-shop', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then( () =>  console.log(`MongoDB Connected ${port}`) );
@@ -24,8 +25,8 @@ try {
     process.exit(1);
 }
 
-app.use(bodyparser.urlencoded({extended: true}));
-app.use(bodyparser.json({limit:'50mb', extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit:'50mb', extended: true }));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -36,16 +37,17 @@ app.use((req, res, next) => {
 });
 
 
-app.use('/api', clienteRoute);
-app.use('/api', adminRoute);
-
 app.listen(port, (err) => {
     if(err){
         console.err('Ha habido un error ' + err);
     }
     else{
         console.log('Servidor ejecutandose en el puerto ' + port);
-    }   
+    }
 });
+
+//app.use('/api', adminRoute);
+app.use('/api', clienteRoute);
+app.use('/api', productoRoute);
 
 module.exports = app;

@@ -8,15 +8,23 @@ import { IndexClienteComponent } from "./components/clientes/index-cliente/index
 import { CreateClienteComponent } from "./components/clientes/create-cliente/create-cliente.component";
 import { EditClienteComponent } from "./components/clientes/edit-cliente/edit-cliente.component";
 
+import { IndexProductoComponent } from "./components/productos/index-producto/index-producto.component";
+import { CreateProductoComponent } from "./components/productos/create-producto/create-producto.component";
 
 const appRoute: Routes = [
-    { path: '', component: InicioComponent, canActivate: [adminGuard] },
+  { path: '', component: InicioComponent, canActivate: [adminGuard] },
 
-    //** Panel Clientes
-    { path: 'panel', children: [
-        { path: 'clientes', component: IndexClienteComponent, canActivate: [adminGuard] },
-        { path: 'clientes/registro', component: CreateClienteComponent, canActivate: [adminGuard] },
-        { path: 'clientes/:id', component: EditClienteComponent, canActivate: [adminGuard] },
+  //** Panel Clientes
+  {
+    path: 'panel', children: [
+      //** Admin Clientes Rutas*/
+      { path: 'clientes', component: IndexClienteComponent, canActivate: [adminGuard] },
+      { path: 'clientes/registro', component: CreateClienteComponent, canActivate: [adminGuard] },
+      { path: 'clientes/:id', component: EditClienteComponent, canActivate: [adminGuard] },
+
+      //** Productos Rutas */
+      { path: 'productos', component: IndexProductoComponent, canActivate: [adminGuard] },
+      { path: 'productos/registro', component: CreateProductoComponent, canActivate: [adminGuard]},
     ]},
     { path: 'login', component: LoginComponent }
 ];
