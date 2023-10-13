@@ -17,13 +17,15 @@ const registroProductoAdmin = async (req, res) => {
       let data = req.body;
 
       let imgPath = req.files.portada.path;
-      let name = imgPath.split('\\');
+      let name = imgPath.split(path.sep);
       let portadaName = name[2];
 
-      data.slug = data.titulo.lowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+      data.slug = data.titulo.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
       data.portada = portadaName;
 
       try {
+
+        console.log('sub ',req.user.sub);
 
         let reg = await Producto.create(data);
 
@@ -34,13 +36,15 @@ const registroProductoAdmin = async (req, res) => {
           producto: reg._id
         });
 
-        res.status(200).json({
+        return res.status(200).send({
           data: reg,
           inventario: inventario
         });
 
 
       } catch (error) {
+
+        console.log(error);
 
         return res.status(500).json({
           message: "Contact Admin -- Problem with the Backend",
@@ -55,6 +59,45 @@ const registroProductoAdmin = async (req, res) => {
   }
 }
 
+const listarProductosAdmin = async (req,res) => {
+  if(req.user){
+
+      if(req.user.role == 'admin'){
+
+        let filtro = req.params['filtro'];
+
+        let reg = await Producto.find({ titulo: new RegExp(filtro, 'i') });
+        return res.status(200).send({ data: reg });
+
+      }else{
+        res.status(500).send({ message: 'NoAccess' });
+      }
+  }else{
+    res.status(500).send({message: 'NoAccess'});
+  }
+}
+
+const obtenerPortadaProducto = async (req,res) => {
+  
+  let img = req.params['img'];
+
+  console.log(img);
+  fs.stat('./uploads/productos/'+img, function(err){
+
+    if(!err){
+    
+      let pathImg = './uploads/productos/'+img;
+      return res.status(200).sendFile(path.resolve(pathImg));
+    }else{
+      
+      let pathImg = './uploads/default.jpg';
+      return res.status(200).sendFile(path.resolve(pathImg));
+  }
+  });
+}
+
 module.exports = {
-  registroProductoAdmin
+  listarProductosAdmin,
+  registroProductoAdmin,
+  obtenerPortadaProducto
 };

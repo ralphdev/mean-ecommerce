@@ -84,4 +84,9 @@ export class AdminService {
     let headers = new HttpHeaders({'Content-Type':'application/json', 'Authorization':token });
     return this._http.get(this.url+'obtener-config-admin',{ headers:headers });
   }
+
+  obtenerConfigPublico(): Observable<any>{
+    let headers = new HttpHeaders().set('Content-Type','application/json');
+    return this._http.get(this.url+'obtener-config-publico', { headers:headers });
+  }
 }

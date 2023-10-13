@@ -23,8 +23,8 @@ export class CreateProductoComponent {
   public imgSelect: any | ArrayBuffer = 'assets/img/01.jpg';
   public config : any = {};
   public token:any;
-  public load_btn:boolean = false;
-  public config_global: any = {};
+  public loadBtn:boolean = false;
+  public configGlobal: any = {};
 
   constructor(
     private _productoService : ProductoService,
@@ -35,6 +35,13 @@ export class CreateProductoComponent {
     this.token = this._adminService.getToken();
 
     this.config = { hight: 500 };
+
+    this._adminService.obtenerConfigPublico().subscribe({
+      next: response => {
+
+        this.configGlobal = response.data;
+      }
+    });
   }
 
   registro(registroForm: any) {
@@ -56,8 +63,37 @@ export class CreateProductoComponent {
 
         console.log(this.producto);
         console.log(this.file);
-        this.load_btn = true;
+
+        this.loadBtn = true;
+
+        this._productoService.registroProductoAdmin(this.producto, this.file, this.token).subscribe({
+          next: response => {
+            iziToast.show({
+              title: 'CORRECTO',
+              titleColor: '#1DC740',
+              class: 'text-success',
+              position: 'topRight',
+              message: 'Se registro correctamente el nuevo producto'
+            });
+            this.loadBtn = false;
+            this._router.navigate(['/panel/productos']);
+          },
+          error: error => {
+            console.log(error);
+            this.loadBtn = false;
+          }
+        })
       }
+    }else {
+
+      iziToast.show({
+        title: 'ERROR',
+        titleColor: '#FC2E2E',
+        class: 'text-danger',
+        position: 'topRight',
+        message: 'Los datos del formulario no son validos o estan incompletos!!!'
+      });
+      this.loadBtn = false;
     }
   }
 
@@ -99,7 +135,7 @@ export class CreateProductoComponent {
           message: 'El archivo debe ser de formato (.PNG; .WEBP; .JPG; .GIF; .JPEG)',
         });
 
-        this.load_btn = false;
+        this.loadBtn = false;
         $('#input-portada').text('Seleccionar imagen');
         this.imgSelect = 'assets/img/01.jpg';
         this.file = undefined;
