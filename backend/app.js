@@ -11,6 +11,7 @@ const port = process.env.PORT || 4201;
 let adminRoute = require('./routes/admin');
 let clienteRoute = require('./routes/cliente');
 let productoRoute = require('./routes/producto');
+let configRoute = require('./routes/config');
 
 try {
 
@@ -46,8 +47,10 @@ app.listen(port, (err) => {
     }
 });
 
-//app.use('/api', adminRoute);
+app.use('/api', adminRoute);
 app.use('/api', clienteRoute);
+app.use('/api', configRoute)
 app.use('/api', productoRoute);
+
 
 module.exports = app;

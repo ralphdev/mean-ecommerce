@@ -51,7 +51,7 @@ const loginAdmin = async(req, res) => {
         else {
 
             const validPassword = bcrypt.compareSync(data.password, adminData.password);
-                
+
             if(!validPassword) {
 
                 return res.status(400).json({
@@ -62,15 +62,15 @@ const loginAdmin = async(req, res) => {
             else {
 
                 console.log(adminData.role, 'else valid');
-                
+
                 const token = await jwt.generateToken(adminData);
-                
+
                 return res.status(200).json({
                     adminData,
                     token
                 });
             }
-            
+
         }
 
     } catch(error) {

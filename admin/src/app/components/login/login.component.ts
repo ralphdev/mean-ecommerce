@@ -15,7 +15,7 @@ export class LoginComponent {
   public user: any = { email: '', password: '' };
   public usuario: any = {};
   public token: any = '';
-  
+
   constructor(
     private _adminService:AdminService,
     private _router:Router
@@ -28,11 +28,11 @@ export class LoginComponent {
       this._router.navigate(['/']);
     }
   }
-  
+
   login(loginForm:any): any {
-    
+
     if(loginForm.valid){
-      
+
       let data = {
         email: this.user.email,
         password: this.user.password
@@ -43,10 +43,10 @@ export class LoginComponent {
           this.usuario = v.adminData;
 
           console.log(this.usuario, 'llamado del loginComponent');
-          
+
           localStorage.setItem('token', v.token);
           localStorage.setItem('_id', v.adminData._id);
-          
+
           //Si todo ok, redirect Home
           this._router.navigate(['/']);
 
@@ -58,7 +58,7 @@ export class LoginComponent {
             color: '#fff',
             class: 'text-danger',
             position: 'topRight',
-            message: e.error.message
+            message: (e.error.message == undefined) ? 'Error Server ': e
           });
         },
         complete: () => console.info('completó enviar el login')

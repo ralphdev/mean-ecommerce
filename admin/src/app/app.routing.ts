@@ -10,6 +10,7 @@ import { EditClienteComponent } from "./components/clientes/edit-cliente/edit-cl
 
 import { IndexProductoComponent } from "./components/productos/index-producto/index-producto.component";
 import { CreateProductoComponent } from "./components/productos/create-producto/create-producto.component";
+import { ConfigComponent } from "./components/config/config.component";
 
 const appRoute: Routes = [
   { path: '', component: InicioComponent, canActivate: [adminGuard] },
@@ -24,7 +25,10 @@ const appRoute: Routes = [
 
       //** Productos Rutas */
       { path: 'productos', component: IndexProductoComponent, canActivate: [adminGuard] },
-      { path: 'productos/registro', component: CreateProductoComponent, canActivate: [adminGuard]},
+      { path: 'productos/registro', component: CreateProductoComponent, canActivate: [adminGuard] },
+
+      //** Configuraciones Admin */
+      { path: 'configuraciones', component: ConfigComponent, canActivate: [adminGuard] },
     ]},
     { path: 'login', component: LoginComponent }
 ];
