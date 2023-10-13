@@ -32,4 +32,9 @@ export class ProductoService {
 
     return this._http.post(this.url + 'registro-producto-admin', fd, { headers: headers });
   }
+
+  listarProductosAdmin(filtro:any, token:any): Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token});
+    return this._http.get(this.url+'listar-productos-admin/'+filtro, { headers:headers });
+ }
 }
