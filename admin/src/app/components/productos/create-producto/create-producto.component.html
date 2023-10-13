@@ -36,7 +36,7 @@
               <select class="form-control custom-select" id="select-input" required name="categoria"
                 [(ngModel)]="producto.categoria">
                 <option value="" selected disabled>Seleccionar</option>
-                <option value="{{item.titulo}}" *ngFor="let item of config_global.categorias">{{item.titulo}}</option>
+                <option value="{{item.titulo}}" *ngFor="let item of configGlobal.categorias">{{item.titulo}}</option>
               </select>
             </div>
 
@@ -70,8 +70,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Crear producto</button>
-      <button *ngIf="load_btn" class="btn btn-secondary" disabled>
+      <button *ngIf="!loadBtn" class="btn btn-primary mr-3" type="submit">Crear producto</button>
+      <button *ngIf="loadBtn" class="btn btn-secondary" disabled>
         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
         Creando...
       </button>
