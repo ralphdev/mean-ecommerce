@@ -13,4 +13,4 @@ let AdminSchema = Schema({
     cedula: { type: String, required: true},
 });
 
-module.exports = mongoose.model('Admin', AdminSchema);
+module.exports = mongoose.model('admin', AdminSchema);
