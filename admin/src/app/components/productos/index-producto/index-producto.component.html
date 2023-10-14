@@ -90,12 +90,14 @@
                   </button>
                   <div class="dropdown-menu">
                     <a class="dropdown-item" [routerLink]="['/panel/productos',item._id]">Editar producto</a>
-                    <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
-                      [attr.data-target]="'#delete-'+item._id">Eliminar Producto</a>
                     <a class="dropdown-item" [routerLink]="['/panel/productos/inventario',item._id]">Inventario</a>
                     <a class="dropdown-item" [routerLink]="['/panel/productos/variedades',item._id]">Variedades</a>
                     <a class="dropdown-item" [routerLink]="['/panel/productos/galeria',item._id]">Galeria</a>
                     <a class="dropdown-item" [routerLink]="['/panel/productos/reviews',item._id]">Reseñas</a>
+                    <a class="dropdown-item"
+                    style="cursor: pointer;"
+                    data-toggle="modal"
+                    [attr.data-target]="'#delete-'+item._id">Eliminar Producto</a>
                   </div>
                 </div>
 
@@ -125,8 +127,6 @@
             </tr>
           </tbody>
         </ng-container>
-
-
       </table>
     </div>
   </div>
@@ -139,6 +139,5 @@
         <button class="btn btn-success btn-sm" (click)="downloadExcel()">Exportar a Excel</button>
       </div>
     </div>
-
   </div>
 </div>

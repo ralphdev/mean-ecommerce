@@ -22,6 +22,11 @@ import { EditClienteComponent } from './components/clientes/edit-cliente/edit-cl
 import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 import { CreateProductoComponent } from './components/productos/create-producto/create-producto.component';
 import { ConfigComponent } from './components/config/config.component';
+import { GaleriaProductoComponent } from './components/productos/galeria-producto/galeria-producto.component';
+import { InventarioProductoComponent } from './components/productos/inventario-producto/inventario-producto.component';
+import { VariedadProductoComponent } from './components/productos/variedad-producto/variedad-producto.component';
+import { UpdateProductoComponent } from './components/productos/update-producto/update-producto.component';
+import { ReviewsProductoComponent } from './components/productos/reviews-producto/reviews-producto.component';
 
 
 @NgModule({
@@ -35,7 +40,12 @@ import { ConfigComponent } from './components/config/config.component';
     EditClienteComponent,
     IndexProductoComponent,
     CreateProductoComponent,
-    ConfigComponent
+    ConfigComponent,
+    GaleriaProductoComponent,
+    InventarioProductoComponent,
+    VariedadProductoComponent,
+    UpdateProductoComponent,
+    ReviewsProductoComponent
   ],
   imports: [
     BrowserModule,
