@@ -18,7 +18,9 @@ api.get('/obtener-producto-admin/:id', auth.auth, productoController.obtenerProd
 api.put('/actualizar-producto-admin/:id', [ auth.auth, path ], productoController.actualizarProductoAdmin);
 api.delete('/eliminar-producto-admin/:id', auth.auth, productoController.eliminarProductoAdmin);
 
-//INVENTARIO
-api.get('/listar-inventario-producto-admin/:id', auth.auth, productoController.listarInventarioAdmin);
+//** INVENTARIO
+api.get('/listar-inventario-producto-admin/:id', auth.auth, productoController.listarInventarioProductoAdmin);
+api.post('/registro-inventario-producto-admin', auth.auth, productoController.registroInventarioProductoAdmin);
+api.delete('/eliminar-inventario-producto-admin/:id', auth.auth, productoController.eliminarInventarioProductoAdmin);
 
 module.exports = api;

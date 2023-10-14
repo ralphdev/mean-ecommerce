@@ -16,7 +16,7 @@ export class ProductoService {
   ) {
     this.url = global.url;
   }
-
+  //* Servicio Productos
   registroProductoAdmin(data: any, file: any, token: any): Observable<any>{
 
     let headers = new HttpHeaders({ 'Authorization': token });
@@ -34,6 +34,7 @@ export class ProductoService {
   }
 
   listarProductosAdmin(filtro:any, token:any): Observable<any>{
+
     let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token});
     return this._http.get(this.url+'listar-productos-admin/'+filtro, { headers:headers });
  }
@@ -44,7 +45,7 @@ export class ProductoService {
     return this._http.get(this.url+'obtener-producto-admin/'+id, { headers:headers });
   }
 
-  actualizarPproductoAdmin(data:any ,id:any, token:any): Observable<any>{
+  actualizarProductoAdmin(data:any ,id:any, token:any): Observable<any>{
     if(data.portada){
       let headers = new HttpHeaders({ 'Authorization':token });
 
@@ -65,9 +66,31 @@ export class ProductoService {
   }
 
   eliminarProductoAdmin(id: any, token:any): Observable<any>{
+
     let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token});
     return this._http.delete(this.url+'eliminar-producto-admin/'+id,{ headers:headers });
   }
+
+  //* Servicios Inventario
+
+  listarInventarioProductoAdmin(id:any, token:any): Observable<any>{
+
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token });
+    return this._http.get(this.url+'listar-inventario-producto-admin/'+id, { headers:headers });
+  }
+  registroInventarioProductoAdmin(data:any, token:any): Observable<any>{
+
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization': token});
+    return this._http.post(this.url+'registro-inventario-producto-admin', data, { headers:headers });
+  }
+
+  eliminarInventarioProductoAdmin(id:any ,token:any): Observable<any>{
+
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization': token });
+    return this._http.delete(this.url+'eliminar-inventario-producto-admin/'+id, { headers:headers });
+  }
+
+
 
 
 }
