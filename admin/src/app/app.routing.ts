@@ -18,7 +18,8 @@ import { ReviewsProductoComponent } from "./components/productos/reviews-product
 import { InventarioProductoComponent } from "./components/productos/inventario-producto/inventario-producto.component";
 
 const appRoute: Routes = [
-  { path: '', component: InicioComponent, canActivate: [adminGuard] },
+  { path: '', redirectTo: 'inicio', pathMatch:'full' },
+  { path: 'inicio', component: InicioComponent, canActivate: [adminGuard] },
 
   //** Panel Clientes
   {
