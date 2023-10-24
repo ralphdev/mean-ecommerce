@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { global } from 'src/app/services/global';
+import { Categoria } from 'src/app/models/config-share';
 
 declare let iziToast:any;
 declare let jQuery:any;
@@ -25,7 +26,7 @@ export class UpdateProductoComponent {
   public token:any;
   public url:any;
   public file:any = undefined;
-  public confiGlobal : any = {};
+  public categorias: Categoria[] = [];
 
   constructor(
     private _route:ActivatedRoute,
@@ -36,10 +37,12 @@ export class UpdateProductoComponent {
     this.config = { height: 500 }
     this.token = localStorage.getItem('token');
     this.url = global.url;
-    this._adminService.obtenerConfigPublico().subscribe({
-      next: response=>{
 
-        this.confiGlobal = response.data;
+    this._adminService.obtenerConfigPublico().subscribe({
+
+      next: response => {
+
+        this.categorias = response.categorias;
       }
     })
   }
