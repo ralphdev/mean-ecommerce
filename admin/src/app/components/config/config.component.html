@@ -4,14 +4,14 @@
 <div class="border-bottom pt-5 mt-2 mb-5">
   <h1 class="mt-2 mt-md-4 mb-3 pt-5">Configuraciones</h1>
   <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-    <p class="text-muted">Este módulo establece las configuraciones de la tienda.</p>
+    <p class="text-muted">Este módulo establece las configuraciones de la tienda.  <i class="h2 mb-3 fw-normal ci-alert"></i></p>
   </div>
 </div>
 
 <form #confForm="ngForm" (ngSubmit)="actualizar(confForm)">
   <div class="card box-shadow-sm">
     <div class="card-header">
-			<h5 style="margin-bottom: 0px;">Configuraciones</h5>
+      <h5 style="margin-bottom: 0px;">Configuraciones</h5>
     </div>
 
     <div class="card-body">
@@ -19,7 +19,8 @@
         <div class="form-group row align-items-center">
           <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Nombre de la tienda</label>
           <div class="col-md-9">
-            <input class="form-control" required type="text" id="text-input" placeholder="Createx" name="titulo" [(ngModel)]="config.titulo">
+            <input class="form-control" required type="text" id="text-input" placeholder="Createx" name="titulo"
+              [(ngModel)]="config.titulo">
           </div>
         </div>
         <div class="form-group row align-items-center">
@@ -28,17 +29,20 @@
             <input class="form-control" required type="number" id="text-input" name="serie" [(ngModel)]="config.serie">
           </div>
           <div class="col-md-5">
-            <input class="form-control" required type="number" id="text-input" name="correlativo" [(ngModel)]="config.correlativo">
+            <input class="form-control" required type="number" id="text-input" name="correlativo"
+              [(ngModel)]="config.correlativo">
           </div>
         </div>
         <div class="form-group row align-items-center">
           <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Categorías</label>
           <div class="col-md-4">
-            <input class="form-control" type="text" id="text-input" placeholder="Titulo" name="titulo_cat" [(ngModel)]="tituloCat">
+            <input class="form-control" type="text" id="text-input" placeholder="Titulo" name="titulo_cat"
+              [(ngModel)]="tituloCat">
 
           </div>
           <div class="col-md-5">
-            <input class="form-control" type="text" id="text-input" placeholder="Icono" name="icono_cat" [(ngModel)]="iconoCat">
+            <input class="form-control" type="text" id="text-input" placeholder="Icono" name="icono_cat"
+              [(ngModel)]="iconoCat">
           </div>
           <div class="col-md-3">
 
@@ -68,14 +72,11 @@
                 <ng-container *ngIf="config.categorias.length>=1">
                   <tbody *ngFor="let item of config.categorias, let indice = index">
                     <tr>
+                      <td>{{item.titulo}}</td>
+                      <td><i class="{{item.icono}}"></i> {{item.icono}}</td>
                       <td>
-                        {{item.titulo}}
-                      </td>
-                      <td>
-                        <i class="{{item.icono}}"></i> {{item.icono}}
-                      </td>
-                      <td>
-                        <a style="cursor: pointer;" class="text-danger" (click)="eliminarCategoria(indice)">[Eliminar]</a>
+                        <a style="cursor: pointer;" class="text-danger"
+                          (click)="eliminarCategoria(indice)">[Eliminar]</a>
                       </td>
                     </tr>
                   </tbody>
@@ -87,15 +88,15 @@
 
         </div>
         <div class="form-group row align-items-center">
-          <label class="col-md-3 col-form-label font-weight-medium"  for="file-input">Logo</label>
+          <label class="col-md-3 col-form-label font-weight-medium" for="file-input">Logo</label>
           <div class="col-md-9">
-              <div class="cs-file-drop-area">
-                <div class="cs-file-drop-preview img-thumbnail rounded">
+            <div class="cs-file-drop-area">
+              <div class="cs-file-drop-preview img-thumbnail rounded">
                 <img [src]="imgSelect" alt="">
-                </div>
-                <span class="cs-file-drop-message">Subir imagen</span>
-                <input type="file" class="file-drop-input" (change)="fileChangeEvent($event)">
               </div>
+              <span class="cs-file-drop-message">Subir imagen</span>
+              <input type="file" class="file-drop-input" (change)="fileChangeEvent($event)">
+            </div>
           </div>
 
         </div>

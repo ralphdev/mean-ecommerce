@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { AdminService } from 'src/app/services/admin.service'
 import { ProductoService } from 'src/app/services/producto.service'
 import { Router } from '@angular/router'
+import { Categoria } from 'src/app/models/config-share';
 
 declare let iziToast:any;
 declare let jQuery:any;
@@ -24,7 +25,7 @@ export class CreateProductoComponent {
   public config : any = {};
   public token:any;
   public loadBtn:boolean = false;
-  public configGlobal: any = {};
+  public categorias: Categoria[] = [];
 
   constructor(
     private _productoService : ProductoService,
@@ -39,7 +40,7 @@ export class CreateProductoComponent {
     this._adminService.obtenerConfigPublico().subscribe({
       next: response => {
 
-        this.configGlobal = response.data;
+        this.categorias = response.categorias;
       }
     });
   }

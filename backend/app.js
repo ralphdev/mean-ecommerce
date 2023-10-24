@@ -8,10 +8,31 @@ let bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const port = process.env.PORT || 4201;
 
+//** socket.io Backend y Cliente
+let server = require('http').createServer(app);
+let io = require('socket.io')(server, {
+    cors: {origin: '*'}
+});
+
+//** configuracion de Carro Backend
+io.on('connection', (socket) =>{
+
+    socket.on('delete-carrito', (data) => {
+        io.emit('new-carrito', data);
+        console.log('new-carrito',data);
+    });
+
+    socket.on('add-carrito-add', (data) => {
+        io.emit('new-carrito-add', data);
+        console.log('new-carrito-add', data);
+    })
+});
+
 let adminRoute = require('./routes/admin');
 let clienteRoute = require('./routes/cliente');
 let productoRoute = require('./routes/producto');
 let configRoute = require('./routes/config');
+let carritoRoute = require('./routes/carrito');
 
 try {
 
@@ -19,7 +40,6 @@ try {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then( () =>  console.log(`MongoDB Connected ${port}`) );
-
 
 } catch (error){
     console.error(error.message);
@@ -38,7 +58,7 @@ app.use((req, res, next) => {
 });
 
 
-app.listen(port, (err) => {
+server.listen(port, (err) => {
     if(err){
         console.err('Ha habido un error ' + err);
     }
@@ -51,6 +71,7 @@ app.use('/api', adminRoute);
 app.use('/api', clienteRoute);
 app.use('/api', configRoute)
 app.use('/api', productoRoute);
+app.use('/api', carritoRoute);
 
 
 module.exports = app;

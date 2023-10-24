@@ -32,7 +32,7 @@
                     <label for="">Categoría</label>
                     <select class="form-control custom-select" id="select-input" required name="categoria" [(ngModel)]="producto.categoria">
                       <option value="" selected disabled>Seleccionar</option>
-                      <option value="{{item.titulo}}" *ngFor="let item of confiGlobal.categorias">{{item.titulo}}</option>
+                      <option value="{{item.titulo}}" *ngFor="let item of categorias">{{item.titulo}}</option>
                   </select>
                 </div>
 
