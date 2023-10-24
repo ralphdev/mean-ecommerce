@@ -1,0 +1,1 @@
+export { ConfigShare } from './config-share';
