@@ -72,7 +72,6 @@ export class ProductoService {
   }
 
   //* Servicios Inventario
-
   listarInventarioProductoAdmin(id:any, token:any): Observable<any>{
 
     let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token });
@@ -90,7 +89,36 @@ export class ProductoService {
     return this._http.delete(this.url+'eliminar-inventario-producto-admin/'+id, { headers:headers });
   }
 
+  //* Servicios Variedades
+  actualizarProductoVariedadesAdmin(data:any, id:any, token:any): Observable<any>{
 
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token });
+    return this._http.put(this.url + 'actualizar-producto-variedades-admin/'+id, data, { headers: headers });
+  }
 
+  //* Servicios Galerias
+  agregarGaleriaAdmin(id:any, data:any, token:any): Observable<any>{
+
+    let headers = new HttpHeaders({ 'Authorization':token });
+
+    const fd = new FormData();
+
+    fd.append('_id',data._id);
+    fd.append('imagen',data.imagen);
+
+    return this._http.put(this.url+'agregar-imagen-galeria-admin/'+id, fd, { headers:headers });
+  }
+
+  eliminarGaleriaAdmin(id:any, data:any, token:any): Observable<any> {
+
+    let headers = new HttpHeaders({'Content-Type':'application/json', 'Authorization':token });
+    return this._http.put(this.url + 'eliminar_imagen_galeria_admin/'+id, data, { headers: headers });
+  }
+
+  obtenerReviewsPublico(id:any): Observable<any>{
+
+    let headers = new HttpHeaders().set('Content-Type','application/json');
+    return this._http.get(this.url+'obtener_reviews_producto_publico/'+id, { headers:headers });
+  }
 
 }

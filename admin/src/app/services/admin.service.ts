@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { global } from './global';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { ConfigShare } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -85,8 +86,8 @@ export class AdminService {
     return this._http.get(this.url+'obtener-config-admin',{ headers:headers });
   }
 
-  obtenerConfigPublico(): Observable<any>{
+  obtenerConfigPublico(): Observable<ConfigShare>{
     let headers = new HttpHeaders().set('Content-Type','application/json');
-    return this._http.get(this.url+'obtener-config-publico', { headers:headers });
+    return this._http.get<ConfigShare>(this.url+'obtener-config-publico', { headers:headers });
   }
 }

@@ -39,7 +39,7 @@ export class ClienteService {
       'Content-Type': 'application/json',
       'Authorization': token
     });
-    return this._http.post(this.url+'registro-cliente',data,{ headers:headers });
+    return this._http.post(this.url+'registro-cliente-admin',data,{ headers:headers });
   }
 
   obtenerClienteAdmin(id:any, token:any): Observable<any>{
