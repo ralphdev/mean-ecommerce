@@ -131,7 +131,7 @@ const obtenerLogo = async (req, res) => {
 const obtenerConfigPublico = async function(req, res){
 
     let reg = await Config.findById({_id:"65277819b8c4bc0da2fdc613"});
-    return res.status(200).send({ data:reg });
+    return res.status(200).json(reg);
 }
 
 module.exports = {

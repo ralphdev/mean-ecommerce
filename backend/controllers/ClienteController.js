@@ -34,7 +34,7 @@ const loginCliente = async(req, res) => {
 
                 const token = await jwt.generateToken(clienteData);
 
-                return res.status(200).json({
+                return res.status(200).send({
                     clienteData,
                     token
                 });
@@ -44,18 +44,47 @@ const loginCliente = async(req, res) => {
 
     } catch(error) {
         return res.status(500).json({
-            message: "Contact Admin -- Problem with the Backend",
+            message: "Contact Admin: " + error,
         });
     }
 
 }
 
-/**
- * Funcion de parte del Administrador para filtrar clientes
- * @param {*} req
- * @param {*} res
- * @returns
- */
+const registroCliente = async (req, res) => {
+
+    var data = req.body;
+    var clienteArr = [];
+
+    clienteArr = await Cliente.find({ email:data.email });
+
+    if (clienteArr.length ==0){
+
+        /* var reg = await Cliente.create(data); */
+        if(data.password){
+
+            bcrypt.hash(data.password, null, null, async (err, hash) => {
+
+            if(hash){
+
+                data.password =hash;
+                var reg = await Cliente.create(data);
+                return res.status(200).send({ data:reg });
+
+            }else{
+                return res.status(400).send({ message: 'ErrorServer', data:undefined });
+            }
+
+            })
+        }else{
+            return res.status(400).send({ message: 'No hay una contraseña', data:undefined });
+        }
+
+    }else{
+        return res.status(400).send({ message: 'Este correo ya existe en la base de datos', data:undefined });
+    }
+}
+
+// ** Funcion de parte del Administrador para filtrar clientes */
 const listarClientesFiltroAdmin = async(req, res) => {
 
     console.log('usuario: ', req.user);
@@ -110,39 +139,38 @@ const listarClientesFiltroAdmin = async(req, res) => {
 
 const registroClienteAdmin = async (req, res) => {
 
-    try {
+    if(req.user){
 
-        if(req.user){
+        if (req.user.role == 'admin') {
 
-            if (req.user.role == 'admin') {
-
+            try {
                 let data = req.body;
 
-                bcrypt.hash('12345', null, null, async (err, hash) => {
+                bcrypt.hash('123456789', null, null, async (err, hash) => {
 
                     if (hash) {
                         data.password = hash;
 
                         let reg = await Cliente.create(data);
-                        return res.status(200).json({message: reg});
+                        return res.status(200).send({ message: reg });
                     } else {
+
                         return res.status(200).json({message: 'Error Server', data:undefined});
                     }
                 });
-            } else {
+            } catch (error) {
 
-                return res.status(500).json({ message: 'NoAccess' });
+                return res.status(500).json({
+                    message: "Contact Admin -- Problem with the Backend",
+                });
             }
         } else {
 
             return res.status(500).json({ message: 'NoAccess' });
         }
+    } else {
 
-    } catch (error) {
-
-        return res.status(500).json({
-            message: "Contact Admin -- Problem with the Backend",
-        });
+        return res.status(500).json({ message: 'NoAccess' });
     }
 }
 
@@ -245,12 +273,34 @@ const eliminarClienteAdmin = async (req, res) => {
     }
 }
 
+const obtenerClienteGuest = async (req, res) => {
+
+    if(req.user){
+
+        let id = req.params['id'];
+
+        try {
+
+            let reg = await Cliente.findById({ _id:id });
+            return res.status(200).send({data:reg});
+
+        } catch (error) {
+            return res.status(200).send({ data:undefined });
+        }
+
+    }else{
+        return res.status(500).send({ message: 'NoAccess' });
+    }
+}
+
 
 module.exports = {
     loginCliente,
+    registroCliente,
     listarClientesFiltroAdmin,
     registroClienteAdmin,
     obtenerClienteAdmin,
     actualizarClienteAdmin,
-    eliminarClienteAdmin
+    eliminarClienteAdmin,
+    obtenerClienteGuest
 }

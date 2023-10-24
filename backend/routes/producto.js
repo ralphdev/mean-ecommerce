@@ -23,4 +23,16 @@ api.get('/listar-inventario-producto-admin/:id', auth.auth, productoController.l
 api.post('/registro-inventario-producto-admin', auth.auth, productoController.registroInventarioProductoAdmin);
 api.delete('/eliminar-inventario-producto-admin/:id', auth.auth, productoController.eliminarInventarioProductoAdmin);
 
+//* VARIEDADES
+api.put('/actualizar-producto-variedades-admin/:id', auth.auth, productoController.actualizarProductoVariedadesAdmin);
+
+//* GALERIA
+api.put('/agregar-imagen-galeria-admin/:id',[ auth.auth,path ], productoController.agregarImgGaleriaAdmin);
+api.put('/eliminar-imagen_galeria-admin/:id', auth.auth, productoController.eliminarImgGaleriaAdmin);
+
+//* E-Commerce
+api.get('/listar-productos-publico/:filtro?', productoController.listarProductosPublico);
+api.get('/obtener-reviews-producto-publico/:id', productoController.obtenerReviewsPublico);
+
+
 module.exports = api;

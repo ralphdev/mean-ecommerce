@@ -82,7 +82,6 @@ const obtenerPortadaProducto = async (req, res) => {
 
   let img = req.params['img'];
 
-  console.log(img);
   fs.stat('./uploads/productos/'+img, function(err){
 
     if(!err){
@@ -289,6 +288,105 @@ const eliminarInventarioProductoAdmin = async (req, res) => {
   }
 }
 
+//** Variedades */
+const actualizarProductoVariedadesAdmin = async (req, res) => {
+
+  if (req.user) {
+
+    if (req.user.role == 'admin') {
+
+      let id = req.params['id'];
+      let data = req.body;
+
+      let reg = await Producto.findByIdAndUpdate({ _id: id }, {
+          titulo_variedad: data.titulo_variedad,
+          variedades: data.variedades
+      });
+      return res.status(200).send({ data: reg });
+
+    } else {
+      return res.status(500).send({ message: 'NoAccess' });
+    }
+  } else {
+    return res.status(500).send({ message: 'NoAccess' });
+  }
+}
+
+//** Galerías */
+const agregarImgGaleriaAdmin = async (req, res) => {
+
+  if (req.user) {
+
+    if (req.user.role == 'admin') {
+
+      let id = req.params['id'];
+      let data = req.body;
+
+      let imgPath = req.files.imagen.path;
+      let name = imgPath.split(path.sep);
+      let imagenName = name[2];
+
+      let reg = await Producto.findByIdAndUpdate({ _id: id }, {
+        $push: {
+          galeria: {
+            imagen: imagenName,
+            _id: data._id
+          }
+        }
+      });
+
+      return res.status(200).send({ data: reg });
+
+    } else {
+      return res.status(500).send({ message: 'NoAccess' });
+    }
+  } else {
+    return res.status(500).send({ message: 'NoAccess' });
+  }
+}
+
+const eliminarImgGaleriaAdmin = async (req, res)  => {
+
+  if (req.user) {
+
+    if (req.user.role == 'admin') {
+
+      let id = req.params['id'];
+      let data = req.body;
+
+      let reg = await Producto.findByIdAndUpdate({ _id: id }, { $pull: { galeria: { _id: data._id } } });
+
+      return res.status(200).send({ data: reg });
+
+    } else {
+      return res.status(500).send({ message: 'NoAccess' });
+    }
+  } else {
+    return res.status(500).send({ message: 'NoAccess' });
+  }
+}
+
+//** E-commerce
+
+const listarProductosPublico = async (req, res) => {
+
+  let filtro = req.params['filtro'];
+
+  let reg = await Producto.find({ titulo: new RegExp(filtro, 'i')}).sort({ createdAt: -1 });
+  return res.status(200).send(reg);
+
+}
+
+//** Reviews */
+const obtenerReviewsPublico = async (req,res) => {
+
+  let id = req.params['id'];
+
+  let reviews = await Review.find({ producto:id }).populate('cliente').sort({ createdAt:-1 });
+
+  return res.status(200).send({data: reviews});
+}
+
 module.exports = {
   listarProductosAdmin,
   registroProductoAdmin,
@@ -298,5 +396,10 @@ module.exports = {
   eliminarProductoAdmin,
   listarInventarioProductoAdmin,
   registroInventarioProductoAdmin,
-  eliminarInventarioProductoAdmin
+  eliminarInventarioProductoAdmin,
+  actualizarProductoVariedadesAdmin,
+  agregarImgGaleriaAdmin,
+  eliminarImgGaleriaAdmin,
+  listarProductosPublico,
+  obtenerReviewsPublico
 };
