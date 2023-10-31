@@ -305,6 +305,7 @@ export class IndexProductoComponent implements OnInit{
         console.log('agregado', response);
 
         if(response == undefined){
+
           iziToast.show({
             title: 'ERROR',
             titleColor: '#FF0000',
@@ -316,13 +317,13 @@ export class IndexProductoComponent implements OnInit{
         }
          else{
 
-          iziToast.show({
-            title: 'CORRECTO',
-            titleColor: '#33FFB2',
-            class: 'text-sucess',
-            position: 'topRight',
-            message: 'Se agrego el producto al carrito.'
-          });
+          // iziToast.show({
+          //   title: 'CORRECTO',
+          //   titleColor: '#33FFB2',
+          //   class: 'text-sucess',
+          //   position: 'topRight',
+          //   message: 'Se agrego el producto al carrito.'
+          // });
 
           //** Socket io, metodo emisor de envio
           this.socket.emit('add-carrito-add', { data:true });
